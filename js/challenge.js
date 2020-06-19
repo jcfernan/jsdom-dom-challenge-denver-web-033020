@@ -1,8 +1,10 @@
 let timer;
+let isActive = true;
 const counter = document.querySelector("#counter")
 const minus = document.querySelector("#minus")
 const plus = document.querySelector("#plus")
 const heart = document.querySelector("#heart")
+const pause = document.querySelector("#pause")
 const likes = document.querySelector(".likes")
 const comments = document.querySelector("#list")
 const commentForm = document.querySelector("#comment-form")
@@ -13,6 +15,7 @@ document.addEventListener("DOMContentLoaded", startTimer);
 minus.addEventListener("click", decrementCounter);
 plus.addEventListener("click", incrementCounter);
 heart.addEventListener("click", addLike);
+pause.addEventListener("click", pauseOrResumeActivities)
 commentForm.addEventListener("submit", displayComment);
 // commentInput.addEventListener("input", handleInput);
 
@@ -54,6 +57,26 @@ function addLike () {
         newLike.textContent = `${currentCount} has been liked 1 time`;
         likes.append(newLike);
     }
+}
+
+function pauseOrResumeActivities () {
+    const buttons = Array.from( document.querySelectorAll("button") );
+    const nonPauseButtons = buttons.filter(button => button.id != "pause");
+    
+    if (isActive) {
+        clearInterval(timer);
+        pause.textContent = "resume";
+    }
+    else {
+        startTimer();
+        pause.textContent = "pause";
+    }
+    toggleActivities (nonPauseButtons);
+}
+
+function toggleActivities (nonPauseButtons) {
+    nonPauseButtons.forEach(button => button.disabled = isActive);
+    isActive = !isActive;
 }
 
 function displayComment (event) {
