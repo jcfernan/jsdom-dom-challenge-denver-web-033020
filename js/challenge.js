@@ -1,3 +1,4 @@
+let timer;
 const counter = document.querySelector("#counter")
 const minus = document.querySelector("#minus")
 const plus = document.querySelector("#plus")
@@ -8,11 +9,16 @@ const commentForm = document.querySelector("#comment-form")
 // const commentInput = document.querySelector("#comment-input")
 
 
+document.addEventListener("DOMContentLoaded", startTimer);
 minus.addEventListener("click", decrementCounter);
 plus.addEventListener("click", incrementCounter);
 heart.addEventListener("click", addLike);
 commentForm.addEventListener("submit", displayComment);
 // commentInput.addEventListener("input", handleInput);
+
+function startTimer () {
+    timer = setInterval(incrementCounter, 1000);
+}
 
 function decrementCounter () {
     const currentCount = parseInt(counter.textContent, 10);
@@ -31,7 +37,7 @@ function addLike () {
 
     const previousLikes = Array.from( likes.children );
     const previousLike = previousLikes.find(previousLike => {
-        const previousLikeCount = parseInt(previousLike.textContent.slice(0, 1), 10);
+        const previousLikeCount = parseInt(previousLike.textContent.split(" ")[0], 10);
         // str.slice(beginIndex[, endIndex])
         return previousLikeCount === currentCount;
     })
